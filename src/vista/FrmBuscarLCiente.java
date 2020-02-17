@@ -33,7 +33,7 @@ import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-
+/**/
 public class FrmBuscarLCiente extends JDialog {
 	private JTable tblCliente;
 	DefaultTableModel model =new DefaultTableModel() {

@@ -6,13 +6,14 @@ create database arial_sql1;
 
 use arial_sql1;
 
-
+/**/
 
 	
 CREATE TABLE categoria(
 	id_cat int auto_increment  primary key not null,
 	nomb_cat varchar(25) NOT NULL
 	);
+/**/
 
 
 CREATE TABLE cliente(
