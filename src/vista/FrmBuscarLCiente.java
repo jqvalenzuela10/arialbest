@@ -48,7 +48,7 @@ public class FrmBuscarLCiente extends JDialog {
 		}
 	};
 	/**
-	 * Launch the application.
+	 * Launch the application.h
 	 */
 	public static void main(String[] args) {
 		try {
