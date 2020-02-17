@@ -14,7 +14,7 @@ CREATE TABLE categoria(
 	nomb_cat varchar(25) NOT NULL
 	);
 /**/
-
+/**/
 
 CREATE TABLE cliente(
 	id_cli int auto_increment  primary key not null,
