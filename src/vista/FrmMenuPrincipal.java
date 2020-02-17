@@ -68,6 +68,7 @@ import keeptoo.KGradientPanel;
 import mantenimientos.GestionCaja;
 import model.Caja;
 import model.Empleados;
+import utils.FocusJpanel;
 import utils.clsArial;
 
 import javax.swing.JLayeredPane;
@@ -106,20 +107,15 @@ public class FrmMenuPrincipal extends JFrame {
 	private JLabel lblArial;
 	private JLabel label_4;
 	private JPanel panel_4;
-	private JLabel label_14;
 	private JLabel label_15;
 	private JPanel panel_9;
 	private JPanel panelPerfil;
 	private JLabel label_19;
 	private JLabel lblDashboard;
 	private JLabel lblComercial;
-	private JLabel label_11;
-	private JLabel label_12;
-	private JLabel label_13;
-	private JPanel panel;
-	private JLabel lblSeguridad;
+	private JPanel panelUsuario;
+	private JLabel lblUsuarios;
 	private JLabel label_2;
-	private JLabel label_3;
 	public static JLabel lblIconoUsu;
 	private JPanel panel_2;
 	private JPanel panel_3;
@@ -133,6 +129,13 @@ public class FrmMenuPrincipal extends JFrame {
 	public static JLabel lblSaldo;
 	
 	ArrayList<Caja> listado=new GestionCaja().listado();
+	private JLabel lblS;
+	private JPanel PanelFinanzas;
+	private JPanel PanelCaja;
+	private JPanel panelReporte;
+	private JLabel lblFinanzas;
+	private JLabel lblCaja;
+	private JLabel lblReportes;
 	/**
 	 * Launch the application.
 	 */
@@ -206,34 +209,33 @@ public class FrmMenuPrincipal extends JFrame {
 				panel_4.setLayout(null);
 				
 				lblArial = new JLabel("ARIAL");
-				lblArial.setBounds(69, 11, 84, 44);
+				lblArial.setBounds(95, 15, 84, 33);
 				panel_4.add(lblArial);
 				
 				lblArial.setForeground(Color.decode("#ffffff"));
-				lblArial.setFont(new Font("Bauhaus 93", Font.BOLD, 30));
+				lblArial.setFont(new Font("Bauhaus 93", Font.BOLD, 25));
 				panel_dashboard = new JPanel();
 				panel_dashboard.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 				panel_dashboard.setEnabled(false);
 				panel_dashboard.setBackground(Color.decode("#2D363F"));
-				panel_dashboard.setBounds(1, 153, 222, 51);
+				panel_dashboard.setBounds(1, 153, 221, 51);
 			
 				panel_4.add(panel_dashboard);
 				panel_dashboard.addMouseListener(new MouseAdapter() {
 					
 					public void mouseEntered(MouseEvent e) {
-						label_13.setBorder(new LineBorder(new Color(38, 162, 252), 4, true));
+						
 						panel_dashboard.setBackground(Color.decode(new clsArial().colorHover));
 						
 						lblDashboard.setForeground(Color.WHITE);
-						label_13.setVisible(true);
+					
 					
 					}
 					@Override
 					public void mouseExited(MouseEvent e) {
-						label_13.setBorder(new LineBorder(new Color(38, 162, 252), 4, true));
-						label_13.setForeground(Color.decode("#98a3af"));
+					
 						panel_dashboard.setBackground(Color.decode(new clsArial().colorMenu));
-						label_13.setVisible(false);
+				
 						
 					}
 					@Override
@@ -255,6 +257,7 @@ public class FrmMenuPrincipal extends JFrame {
 					panel_dashboard.setLayout(null);
 					
 					lblDashboard = new JLabel("DASHBOARD");
+					lblDashboard.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 					lblDashboard.setBounds(58, 0, 125, 51);
 					panel_dashboard.add(lblDashboard);
 					lblDashboard.setHorizontalAlignment(SwingConstants.CENTER);
@@ -265,48 +268,59 @@ public class FrmMenuPrincipal extends JFrame {
 					lblDashboard.setHorizontalTextPosition(SwingConstants.CENTER);
 					
 					lblNewLabel_1 = new JLabel("");
+					lblNewLabel_1.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 					lblNewLabel_1.setBounds(0, 0, 59, 48);
 					lblNewLabel_1.setHorizontalTextPosition(SwingConstants.CENTER);
 					lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
 					panel_dashboard.add(lblNewLabel_1);
 					lblNewLabel_1.setIcon(new ImageIcon(FrmMenuPrincipal.class.getResource("/iconos/IconoDashBoard.png")));
 					
-					label_13 = new JLabel("");
-					label_13.setOpaque(false);
-					label_13.setBackground(new Color(15, 149, 236));
-					label_13.setBounds(218, -1, 3, 52);
-					panel_dashboard.add(label_13);
-					
 					
 			
 					
 					panel_ventas = new JPanel();
+					
 					panel_ventas.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-					panel_ventas.setBounds(1, 236, 222, 51);
+					panel_ventas.setBounds(1, 236, 221, 51);
 					panel_4.add(panel_ventas);
 					panel_ventas.addMouseListener(new MouseAdapter() {
+						
 						
 						@Override
 						public void mouseEntered(MouseEvent e) {
 							
-
-							label_11.setBorder(new LineBorder(new Color(38, 162, 252), 4, true));
+							
 							panel_ventas.setBackground(Color.decode(new clsArial().colorHover));
-							lblComercial.setForeground(Color.white);
-							label_11.setVisible(true);
+							lblComercial.setForeground(Color.WHITE);
+						
 							
 							
 						}
 						@Override
 						public void mouseExited(MouseEvent e) {
-							label_11.setBorder(new LineBorder(new Color(38, 162, 252), 4, true));
+							
+					
 							panel_ventas.setBackground(Color.decode(new clsArial().colorMenu));
 							lblComercial.setForeground(Color.decode("#98a3af"));
-							label_11.setVisible(false);
+						
 							
 						}
+						
+						
 						@Override
 						public void mouseClicked(MouseEvent arg0) {
+							
+							
+							ArrayList<JPanel>listado=new ArrayList<>();
+							listado.add(panel_dashboard);
+							listado.add(panelCompras);
+							listado.add(panelAlmacen);
+							listado.add(panelUsuario);
+							listado.add(PanelFinanzas);
+							listado.add(PanelCaja);
+							listado.add(panelReporte);
+							
+							FocusJpanel.lanzarFocoDashBoard(panel_ventas, listado);
 							
 							dktBody.removeAll();
 							dktBody.repaint();
@@ -351,46 +365,53 @@ public class FrmMenuPrincipal extends JFrame {
 					lblComercial.setHorizontalTextPosition(SwingConstants.CENTER);
 					
 					label = new JLabel("");
+					label.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 					label.setIcon(new ImageIcon(FrmMenuPrincipal.class.getResource("/iconos/carrito1.png")));
 					label.setHorizontalTextPosition(SwingConstants.CENTER);
 					label.setHorizontalAlignment(SwingConstants.CENTER);
 					label.setBounds(0, 0, 59, 48);
 					panel_ventas.add(label);
 					
-					label_11 = new JLabel("");
-					label_11.setOpaque(false);
-					label_11.setBackground(new Color(15, 149, 236));
-					label_11.setBounds(218, 0, 3, 52);
-					panel_ventas.add(label_11);
-					
 					
 					panelCompras = new JPanel();
 					panelCompras.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-					panelCompras.setBounds(1, 319, 222, 51);
+					panelCompras.setBounds(1, 319, 221, 51);
 					panel_4.add(panelCompras);
 					panelCompras.addMouseListener(new MouseAdapter() {
 					
 						@Override
 						public void mouseEntered(MouseEvent e) {
 							
-							label_12.setBorder(new LineBorder(new Color(38, 162, 252), 4, true));
+							
 							panelCompras.setBackground(Color.decode(new clsArial().colorHover));
 							lblCompras.setForeground(Color.WHITE);
-							label_12.setVisible(true);
+						
 							
 							
 						}
 						@Override
 						public void mouseExited(MouseEvent e) {
 							
-							label_12.setBorder(new LineBorder(new Color(38, 162, 252), 4, true));
+							
 							panelCompras.setBackground(Color.decode(new clsArial().colorMenu));
 							lblCompras.setForeground(Color.decode("#98a3af"));
-							label_12.setVisible(false);
+						
 							
 						}
 						@Override
 						public void mouseClicked(MouseEvent arg0) {
+							
+							ArrayList<JPanel>listado=new ArrayList<>();
+							listado.add(panel_dashboard);
+							listado.add(panel_ventas);
+							listado.add(panelAlmacen);
+							listado.add(panelUsuario);
+							listado.add(PanelFinanzas);
+							listado.add(PanelCaja);
+							listado.add(panelReporte);
+							
+							FocusJpanel.lanzarFocoDashBoard(panelCompras, listado);
+							
 							
 							dktBody.removeAll();
 							dktBody.repaint();
@@ -424,17 +445,12 @@ public class FrmMenuPrincipal extends JFrame {
 					lblCompras.setBackground(new Color(44, 57, 68));
 					
 					label_4 = new JLabel("");
+					label_4.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 					label_4.setHorizontalTextPosition(SwingConstants.CENTER);
 					label_4.setHorizontalAlignment(SwingConstants.CENTER);
 					label_4.setIcon(new ImageIcon(FrmMenuPrincipal.class.getResource("/iconos/reporte.png")));
 					label_4.setBounds(0, 0, 59, 48);
 					panelCompras.add(label_4);
-					
-					label_12 = new JLabel("");
-					label_12.setOpaque(false);
-					label_12.setBackground(new Color(15, 149, 236));
-					label_12.setBounds(218, -1, 3, 52);
-					panelCompras.add(label_12);
 					
 					panelAlmacen = new JPanel();
 					panelAlmacen.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -445,7 +461,7 @@ public class FrmMenuPrincipal extends JFrame {
 							panelAlmacen.setBackground(Color.decode(new clsArial().colorHover));
 						lblAlmacen.setForeground(Color.WHITE);
 							
-							label_14.setOpaque(true);
+							
 							
 							
 						}
@@ -454,11 +470,24 @@ public class FrmMenuPrincipal extends JFrame {
 							panelAlmacen.setBackground(Color.decode(new clsArial().colorMenu));
 							lblAlmacen.setForeground(Color.decode("#98a3af"));
 							
-							label_14.setOpaque(false);
+						
 							
 						}
 						@Override
 						public void mouseClicked(MouseEvent arg0) {
+							
+							ArrayList<JPanel>listado=new ArrayList<>();
+							listado.add(panel_dashboard);
+							listado.add(panelCompras);
+							listado.add(panel_ventas);
+							listado.add(panelUsuario);
+							listado.add(PanelFinanzas);
+							listado.add(PanelCaja);
+							listado.add(panelReporte);
+							
+							FocusJpanel.lanzarFocoDashBoard(panelAlmacen, listado);
+							
+							
 							
 							dktBody.removeAll();
 							dktBody.repaint();
@@ -478,7 +507,7 @@ public class FrmMenuPrincipal extends JFrame {
 							}
 						}
 					});
-					panelAlmacen.setBounds(1, 407, 222, 51);
+					panelAlmacen.setBounds(1, 407, 221, 51);
 					panel_4.add(panelAlmacen);
 					panelAlmacen.setLayout(null);
 					panelAlmacen.setBackground(Color.decode("#2D363F"));
@@ -494,6 +523,7 @@ public class FrmMenuPrincipal extends JFrame {
 					lblAlmacen.setBackground(new Color(44, 57, 68));
 					
 					label_6 = new JLabel("");
+					label_6.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 					
 					label_6.setIcon(new ImageIcon(FrmMenuPrincipal.class.getResource("/iconos/almacen.png")));
 					label_6.setHorizontalTextPosition(SwingConstants.CENTER);
@@ -501,17 +531,45 @@ public class FrmMenuPrincipal extends JFrame {
 					label_6.setBounds(2, 2, 59, 48);
 					panelAlmacen.add(label_6);
 					
-					label_14 = new JLabel("");
-					label_14.setBounds(218, 0, 3, 52);
-					label_14.setBackground(Color.decode(new clsArial().colorCeleste));
-					label_14.setOpaque(false);
-					panelAlmacen.add(label_14);
-					
-					panel = new JPanel();
-					panel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-					panel.addMouseListener(new MouseAdapter() {
+					panelUsuario = new JPanel();
+					panelUsuario.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+					panelUsuario.addMouseListener(new MouseAdapter() {
+						
+						@Override
+						public void mouseEntered(MouseEvent e) {
+							
+							panelUsuario.setBackground(Color.decode(new clsArial().colorHover));
+						lblUsuarios.setForeground(Color.WHITE);
+							
+							
+							
+							
+						}
+						@Override
+						public void mouseExited(MouseEvent e) {
+							panelUsuario.setBackground(Color.decode(new clsArial().colorMenu));
+							lblUsuarios.setForeground(Color.decode("#98a3af"));
+							
+						
+							
+						}
+						
+						
 						@Override
 						public void mouseClicked(MouseEvent arg0) {
+							
+
+							ArrayList<JPanel>listado=new ArrayList<>();
+							listado.add(panel_dashboard);
+							listado.add(panelCompras);
+							listado.add(panel_ventas);
+							listado.add(panelAlmacen);
+							listado.add(PanelFinanzas);
+							listado.add(PanelCaja);
+							listado.add(panelReporte);
+							
+							FocusJpanel.lanzarFocoDashBoard(panelUsuario, listado);
+							
 							
 							dktBody.removeAll();
 							dktBody.repaint();
@@ -531,35 +589,31 @@ public class FrmMenuPrincipal extends JFrame {
 							}
 						}
 					});
-					panel.setLayout(null);
-					panel.setBackground(new Color(45, 54, 63));
-					panel.setBounds(1, 506, 222, 51);
-					panel_4.add(panel);
+					panelUsuario.setLayout(null);
+					panelUsuario.setBackground(new Color(45, 54, 63));
+					panelUsuario.setBounds(1, 506, 221, 51);
+					panel_4.add(panelUsuario);
 					
-					lblSeguridad = new JLabel("USUARIO");
-					lblSeguridad.setHorizontalAlignment(SwingConstants.CENTER);
-					lblSeguridad.setForeground(new Color(152, 163, 175));
-					lblSeguridad.setFont(new Font("Segoe UI Symbol", Font.BOLD, 13));
-					lblSeguridad.setBackground(new Color(44, 57, 68));
-					lblSeguridad.setBounds(71, 0, 98, 52);
-					panel.add(lblSeguridad);
+					lblUsuarios = new JLabel("USUARIO");
+					lblUsuarios.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+					lblUsuarios.setHorizontalAlignment(SwingConstants.CENTER);
+					lblUsuarios.setForeground(new Color(152, 163, 175));
+					lblUsuarios.setFont(new Font("Segoe UI Symbol", Font.BOLD, 13));
+					lblUsuarios.setBackground(new Color(44, 57, 68));
+					lblUsuarios.setBounds(71, 0, 98, 52);
+					panelUsuario.add(lblUsuarios);
 					
 					label_2 = new JLabel("");
+					label_2.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 					label_2.setIcon(new ImageIcon(FrmMenuPrincipal.class.getResource("/img/lock.png")));
 					label_2.setHorizontalTextPosition(SwingConstants.CENTER);
 					label_2.setHorizontalAlignment(SwingConstants.CENTER);
 					label_2.setBounds(2, 2, 59, 48);
-					panel.add(label_2);
-					
-					label_3 = new JLabel("");
-					label_3.setOpaque(false);
-					label_3.setBackground(new Color(15, 149, 236));
-					label_3.setBounds(218, 0, 3, 52);
-					panel.add(label_3);
+					panelUsuario.add(label_2);
 					
 					lblUsuario = new JLabel("");
 					lblUsuario.setForeground(Color.LIGHT_GRAY);
-					lblUsuario.setFont(new Font("Segoe UI Symbol", Font.BOLD, 15));
+					lblUsuario.setFont(new Font("Segoe UI Symbol", Font.BOLD, 14));
 					lblUsuario.setBounds(68, 92, 142, 26);
 					panel_4.add(lblUsuario);
 					
@@ -572,30 +626,66 @@ public class FrmMenuPrincipal extends JFrame {
 					panel_3.setBackground(Color.decode("#2e314b"));
 					panel_4.add(panel_3);
 					
-					JPanel panel_5 = new JPanel();
-					panel_5.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-					panel_5.addMouseListener(new MouseAdapter() {
+					PanelFinanzas = new JPanel();
+					PanelFinanzas.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+					PanelFinanzas.addMouseListener(new MouseAdapter() {
+						
+						@Override
+						public void mouseEntered(MouseEvent e) {
+							
+							PanelFinanzas.setBackground(Color.decode(new clsArial().colorHover));
+						lblFinanzas.setForeground(Color.WHITE);
+							
+							
+							
+							
+						}
+						@Override
+						public void mouseExited(MouseEvent e) {
+							PanelFinanzas.setBackground(Color.decode(new clsArial().colorMenu));
+							lblFinanzas.setForeground(Color.decode("#98a3af"));
+							
+						
+							
+						}
+						
+						
+						
 						@Override
 						public void mouseClicked(MouseEvent arg0) {
 
+							ArrayList<JPanel>listado=new ArrayList<>();
+							listado.add(panel_dashboard);
+							listado.add(panelCompras);
+							listado.add(panel_ventas);
+							listado.add(panelAlmacen);
+							listado.add(panelUsuario);
+							listado.add(PanelCaja);
+							listado.add(panelReporte);
+							
+							FocusJpanel.lanzarFocoDashBoard(PanelFinanzas, listado);
+							
+							
 							
 							clsArial.setInternalFrame(dktBody,new IntFinanzas(),null,null);
 						}
 					});
-					panel_5.setLayout(null);
-					panel_5.setBackground(new Color(45, 54, 63));
-					panel_5.setBounds(1, 596, 222, 51);
-					panel_4.add(panel_5);
+					PanelFinanzas.setLayout(null);
+					PanelFinanzas.setBackground(new Color(45, 54, 63));
+					PanelFinanzas.setBounds(1, 596, 221, 51);
+					panel_4.add(PanelFinanzas);
 					
-					JLabel lblFinanzas = new JLabel("FINANZAS");
+					lblFinanzas = new JLabel("FINANZAS");
+					lblFinanzas.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 					lblFinanzas.setHorizontalAlignment(SwingConstants.CENTER);
 					lblFinanzas.setForeground(new Color(152, 163, 175));
 					lblFinanzas.setFont(new Font("Segoe UI Symbol", Font.BOLD, 13));
 					lblFinanzas.setBackground(new Color(44, 57, 68));
 					lblFinanzas.setBounds(71, 0, 98, 52);
-					panel_5.add(lblFinanzas);
+					PanelFinanzas.add(lblFinanzas);
 					
 					JLabel label_5 = new JLabel("");
+					label_5.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 					label_5.setHorizontalTextPosition(SwingConstants.CENTER);
 					label_5.setHorizontalAlignment(SwingConstants.CENTER);
 					label_5.setBounds(2, 2, 59, 48);
@@ -603,81 +693,147 @@ public class FrmMenuPrincipal extends JFrame {
 					Image imgEscalada = imgIcon.getImage().getScaledInstance(35, 35, Image.SCALE_SMOOTH);
 					Icon iconoEscalado = new ImageIcon(imgEscalada);
 					label_5.setIcon(iconoEscalado);
-					panel_5.add(label_5);
+					PanelFinanzas.add(label_5);
 					
-					JLabel label_7 = new JLabel("");
-					label_7.setOpaque(false);
-					label_7.setBackground(new Color(15, 149, 236));
-					label_7.setBounds(218, 0, 3, 52);
-					panel_5.add(label_7);
-					
-					JPanel panel_5_1 = new JPanel();
-					panel_5_1.addMouseListener(new MouseAdapter() {
+					PanelCaja = new JPanel();
+					PanelCaja.addMouseListener(new MouseAdapter() {
+						@Override
+						public void mouseEntered(MouseEvent e) {
+							
+							PanelCaja.setBackground(Color.decode(new clsArial().colorHover));
+						lblCaja.setForeground(Color.WHITE);
+							
+							
+							
+							
+						}
+						@Override
+						public void mouseExited(MouseEvent e) {
+							PanelCaja.setBackground(Color.decode(new clsArial().colorMenu));
+							lblCaja.setForeground(Color.decode("#98a3af"));
+							
+						
+							
+						}
+						
 						@Override
 						public void mouseClicked(MouseEvent e) {
+							
+							ArrayList<JPanel>listado=new ArrayList<>();
+							listado.add(panel_dashboard);
+							listado.add(panelCompras);
+							listado.add(panel_ventas);
+							listado.add(panelAlmacen);
+							listado.add(panelUsuario);
+							listado.add(PanelFinanzas);
+							listado.add(panelReporte);
+							
+							FocusJpanel.lanzarFocoDashBoard(PanelCaja, listado);
+							
 							
 							new clsArial().setInternalFrame(dktBody	, new IntCaja(), null, null);
 						}
 					});
-					panel_5_1.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-					panel_5_1.setLayout(null);
-					panel_5_1.setBackground(new Color(45, 54, 63));
-					panel_5_1.setBounds(1, 682, 222, 51);
-					panel_4.add(panel_5_1);
+					PanelCaja.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+					PanelCaja.setLayout(null);
+					PanelCaja.setBackground(new Color(45, 54, 63));
+					PanelCaja.setBounds(1, 682, 221, 51);
+					panel_4.add(PanelCaja);
 					
-					JLabel lblCaja = new JLabel("CAJA");
+					lblCaja = new JLabel("CAJA");
+					lblCaja.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 					lblCaja.setHorizontalAlignment(SwingConstants.CENTER);
 					lblCaja.setForeground(new Color(152, 163, 175));
 					lblCaja.setFont(new Font("Segoe UI Symbol", Font.BOLD, 13));
 					lblCaja.setBackground(new Color(44, 57, 68));
 					lblCaja.setBounds(71, 0, 98, 52);
-					panel_5_1.add(lblCaja);
+					PanelCaja.add(lblCaja);
 					
 					JLabel label_5_1 = new JLabel("");
+					label_5_1.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 					label_5_1.setHorizontalTextPosition(SwingConstants.CENTER);
 					label_5_1.setHorizontalAlignment(SwingConstants.CENTER);
 					label_5_1.setBounds(2, 2, 59, 48);
+					
 					new clsArial().modifiedIcon("/img/caja.png", 29, 29, label_5_1);
-					panel_5_1.add(label_5_1);
+					PanelCaja.add(label_5_1);
 					
 					JLabel label_7_1 = new JLabel("");
 					label_7_1.setOpaque(false);
 					label_7_1.setBackground(new Color(15, 149, 236));
 					label_7_1.setBounds(218, 0, 3, 52);
-					panel_5_1.add(label_7_1);
+					PanelCaja.add(label_7_1);
 					
-					JPanel panel_5_1_1 = new JPanel();
-					panel_5_1_1.addMouseListener(new MouseAdapter() {
+					panelReporte = new JPanel();
+					panelReporte.addMouseListener(new MouseAdapter() {
+						
+						@Override
+						public void mouseEntered(MouseEvent e) {
+							
+							panelReporte.setBackground(Color.decode(new clsArial().colorHover));
+						lblReportes.setForeground(Color.WHITE);
+							
+							
+							
+							
+						}
+						@Override
+						public void mouseExited(MouseEvent e) {
+							panelReporte.setBackground(Color.decode(new clsArial().colorMenu));
+							lblReportes.setForeground(Color.decode("#98a3af"));
+							
+						
+							
+						}
 						@Override
 						public void mouseClicked(MouseEvent arg0) {
+							
+							ArrayList<JPanel>listado=new ArrayList<>();
+							listado.add(panel_dashboard);
+							listado.add(panelCompras);
+							listado.add(panel_ventas);
+							listado.add(panelAlmacen);
+							listado.add(panelUsuario);
+							listado.add(PanelFinanzas);
+							listado.add(PanelCaja);
+							
+							FocusJpanel.lanzarFocoDashBoard(panelReporte, listado);
 							clsArial.setInternalFrame(dktBody, new IntReportes(), null, null);
 						}
 					});
-					panel_5_1_1.setLayout(null);
-					panel_5_1_1.setBackground(new Color(45, 54, 63));
-					panel_5_1_1.setBounds(1, 764, 222, 51);
-					panel_4.add(panel_5_1_1);
+					panelReporte.setLayout(null);
+					panelReporte.setBackground(new Color(45, 54, 63));
+					panelReporte.setBounds(1, 764, 221, 51);
+					panel_4.add(panelReporte);
 					
-					JLabel lblReportes = new JLabel("REPORTES");
+					lblReportes = new JLabel("REPORTES");
+					lblReportes.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 					lblReportes.setHorizontalAlignment(SwingConstants.CENTER);
 					lblReportes.setForeground(new Color(152, 163, 175));
 					lblReportes.setFont(new Font("Segoe UI Symbol", Font.BOLD, 13));
 					lblReportes.setBackground(new Color(44, 57, 68));
 					lblReportes.setBounds(71, 0, 98, 52);
-					panel_5_1_1.add(lblReportes);
+					panelReporte.add(lblReportes);
 					
 					JLabel label_5_1_1 = new JLabel("");
+					label_5_1_1.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 					label_5_1_1.setHorizontalTextPosition(SwingConstants.CENTER);
 					label_5_1_1.setHorizontalAlignment(SwingConstants.CENTER);
 					label_5_1_1.setBounds(2, 2, 59, 48);
 					new clsArial().modifiedIcon("/img/reporte.png", 29, 29, label_5_1_1);
-					panel_5_1_1.add(label_5_1_1);
+					panelReporte.add(label_5_1_1);
 					
 					JLabel label_7_1_1 = new JLabel("");
 					label_7_1_1.setOpaque(false);
 					label_7_1_1.setBackground(new Color(15, 149, 236));
 					label_7_1_1.setBounds(218, 0, 3, 52);
-					panel_5_1_1.add(label_7_1_1);
+					panelReporte.add(label_7_1_1);
+					
+					JLabel lblLogo = new JLabel("");
+					lblLogo.setBounds(42, 10, 48, 44);
+					panel_4.add(lblLogo);
+					clsArial c=new clsArial();
+					c.modifiedIcon("/iconos/logoArial.png", 65, 50, lblLogo);
 					
 					panel_9 = new JPanel();
 					panel_9.setBounds(223, 0, 1356, 57);
@@ -729,13 +885,19 @@ public class FrmMenuPrincipal extends JFrame {
 					
 					int codigo=Integer.parseInt(listado.get(0).getCodCaja()+"");
 					lblCodCaja = new JLabel(codigo+"");
+					lblCodCaja.setForeground(Color.WHITE);
 					lblCodCaja.setBounds(0, 1, 19, 14);
 					panelCaja.add(lblCodCaja);
 					
 					double saldo=Double.parseDouble(listado.get(0).getSaldo()+"");
 					lblSaldo = new JLabel(saldo+"");
-					lblSaldo.setBounds(102, 35, 50, 14);
+					lblSaldo.setBounds(114, 32, 38, 14);
 					panelCaja.add(lblSaldo);
+					
+					lblS = new JLabel("S/");
+					lblS.setFont(new Font("Tahoma", Font.PLAIN, 11));
+					lblS.setBounds(102, 32, 14, 14);
+					panelCaja.add(lblS);
 					
 					panel_1_2 = new JPanel();
 					panel_1_2.setBackground(new Color(235, 240, 244));
@@ -743,6 +905,7 @@ public class FrmMenuPrincipal extends JFrame {
 					panel_9.add(panel_1_2);
 					
 					dktBody = 	new JDesktopPane();
+					dktBody.setFont(new Font("Dialog", Font.PLAIN, 12));
 					contentPane.add(dktBody);
 
 					dktBody.setBounds(new Rectangle(223, 60, 1642, 890));

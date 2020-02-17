@@ -3,6 +3,7 @@ package vista;
 import java.awt.EventQueue;
 
 import javax.mail.internet.NewsAddress;
+import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JPanel;
@@ -17,12 +18,16 @@ import javax.swing.JSeparator;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 
+import componentes.boton;
 import mantenimientos.GestionFinanzas;
+import model.Abono;
 import model.Celda_CheckBox;
 import model.Cobranza;
 import model.Render_CheckBox;
 import model.Tabla_Reutilizable;
+import model.prueba;
 import utils.FormatoTablaMain;
+import utils.clsArial;
 
 import javax.swing.UIManager;
 import java.awt.Cursor;
@@ -40,10 +45,18 @@ public class JdialogCobranzaPendientes extends JDialog {
 	public static JLabel lblNomCliente;
 	public static JLabel lblnomCli2;
 	public static String cliente;
+	public static String idVenta;
 	private JScrollPane scrollPane;
 
-	DefaultTableModel model=new DefaultTableModel();
+	private JLabel lbIiconlEmpresa;
+	private JLabel lbliconAbonar;
+	private JLabel lblTotalSaldo;
+	private JTable tblAbonos;
 	
+	
+
+	DefaultTableModel model=new DefaultTableModel();
+	DefaultTableModel model2=new DefaultTableModel();
 	/**
 	 * Launch the application.
 	 */
@@ -67,63 +80,73 @@ public class JdialogCobranzaPendientes extends JDialog {
 	
 	
 	public JdialogCobranzaPendientes() {
+		setTitle("                                                                                                                     PENDIENTES DE COBRO");
 		addWindowListener(new WindowAdapter() {
-			@Override
-			public void windowOpened(WindowEvent arg0) {
-				mostrarTabla();
+		
+			public void windowActivated(WindowEvent arg0) {
+                mostrarTablaCreditos();
+                mostrarTablaAbonos();
+				lblTotalSaldo.setText("Total :     S./ " + Double.toString(sumarColumna()));
 			}
 		});
+		model2.addColumn("Fecha");
+		model2.addColumn("F.P");
+		model2.addColumn("Observación");
+		model2.addColumn("Monto");
+
+		
+		
 		setModal(true);
 		
-		getContentPane().setBackground(Color.WHITE);
-		setBounds(100, 100, 1135, 561);
+		getContentPane().setBackground(Color.decode("#ebf0f4"));
+		setBounds(100, 100, 945, 681);
 		setLocationRelativeTo(null);
 		getContentPane().setLayout(null);
 		
 		JPanel panelheader = new JPanel();
-		panelheader.setBackground(Color.decode("#1493e1"));
-		panelheader.setBounds(0, 0, 1119, 89);
+		panelheader.setBackground(Color.WHITE);
+		panelheader.setBounds(0, 0, 929, 138);
 		getContentPane().add(panelheader);
 		panelheader.setLayout(null);
 		
-		JLabel lblPendientesDeCobro = new JLabel("PENDIENTES DE COBRO");
-		lblPendientesDeCobro.setHorizontalAlignment(SwingConstants.CENTER);
-		lblPendientesDeCobro.setForeground(new Color(240,240,240));
-		lblPendientesDeCobro.setFont(new Font("Segoe UI", Font.BOLD, 16));
-		lblPendientesDeCobro.setBounds(384, 11, 334, 21);
-		panelheader.add(lblPendientesDeCobro);
-		
 		lblNomCliente = new JLabel("");
-		lblNomCliente.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNomCliente.setForeground(SystemColor.menu);
-		lblNomCliente.setFont(new Font("Segoe UI", Font.BOLD, 18));
-		lblNomCliente.setBounds(384, 43, 334, 21);
+		lblNomCliente.setForeground(Color.BLACK);
+		lblNomCliente.setFont(new Font("Segoe UI Semibold", Font.BOLD, 23));
+		lblNomCliente.setBounds(208, 11, 334, 38);
 		panelheader.add(lblNomCliente);
 		
-		JLabel lblPendientesDeCobranza = new JLabel("Pendientes de cobranza");
-		lblPendientesDeCobranza.setForeground(Color.decode("#6ecbf0"));
-		lblPendientesDeCobranza.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 14));
-		lblPendientesDeCobranza.setBounds(10, 112, 159, 21);
-		getContentPane().add(lblPendientesDeCobranza);
+		lbIiconlEmpresa = new JLabel("");
+		lbIiconlEmpresa.setBounds(46, 28, 125, 93);
+		new clsArial().modifiedIcon("/img/empresa.png", 120, 120, lbIiconlEmpresa);
+		panelheader.add(lbIiconlEmpresa);
 		
-		scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 146, 646, 365);
-		getContentPane().add(scrollPane);
+		lblCelular_1 = new JLabel("");
+		lblCelular_1.setBounds(208, 83, 108, 15);
+		panelheader.add(lblCelular_1);
+		lblCelular_1.setForeground(Color.decode(clsArial.colorGrisOscuro));
+		lblCelular_1.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 12));
 		
+		lblCorreo_1 = new JLabel("");
+		lblCorreo_1.setBounds(208, 106, 119, 15);
+		panelheader.add(lblCorreo_1);
+		lblCorreo_1.setForeground(Color.decode(clsArial.colorGrisOscuro));
+		lblCorreo_1.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 12));
+		
+		lblTelfono_1 = new JLabel("");
+		lblTelfono_1.setBounds(208, 60, 108, 15);
+		panelheader.add(lblTelfono_1);
+		lblTelfono_1.setForeground(Color.decode(clsArial.colorGrisOscuro));
+		lblTelfono_1.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 12));
+		
+		model.addColumn("ID");
 		model.addColumn("Tipo");
 		model.addColumn("Numero");
 		model.addColumn("Vencimiento");
 		model.addColumn("Mora");
-		model.addColumn("Moneda");
-		model.addColumn("Total");
+		model.addColumn("Deuda");
+		model.addColumn("Abono");
+		model.addColumn("Saldo");
 		model.addColumn("Seleccionar");
-		tblPendientesCobranza = new JTable();
-		tblPendientesCobranza.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent arg0) {
-			}
-		});
-		scrollPane.setViewportView(tblPendientesCobranza);
 		
 		
 		
@@ -131,7 +154,7 @@ public class JdialogCobranzaPendientes extends JDialog {
 		separator.setForeground(Color.LIGHT_GRAY);
 		separator.setOrientation(SwingConstants.VERTICAL);
 		separator.setBackground(Color.WHITE);
-		separator.setBounds(666, 100, 2, 411);
+		separator.setBounds(666, 193, -1, 318);
 		getContentPane().add(separator);
 		
 		lblnomCli2 = new JLabel("");
@@ -142,114 +165,195 @@ public class JdialogCobranzaPendientes extends JDialog {
 		lblnomCli2.setBounds(691, 113, 334, 21);
 		getContentPane().add(lblnomCli2);
 		
-		JLabel lblTelfono = new JLabel("Tel\u00E9fono :");
-		lblTelfono.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 12));
-		lblTelfono.setForeground(Color.decode("#b3b3b3"));
-		lblTelfono.setBounds(691, 147, 59, 15);
-		getContentPane().add(lblTelfono);
+		JPanel panel_2 = new JPanel();
+		panel_2.setBackground(Color.WHITE);
+		panel_2.setBounds(0, 211, 929, 219);
+		getContentPane().add(panel_2);
+		panel_2.setLayout(null);
 		
-		JLabel lblCelular = new JLabel("Celular :");
-		lblCelular.setForeground(new Color(179, 179, 179));
-		lblCelular.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 12));
-		lblCelular.setBounds(691, 173, 59, 15);
-		getContentPane().add(lblCelular);
+		JLabel lblPendientesDeCobranza = new JLabel("Lista de Creditos");
+		lblPendientesDeCobranza.setHorizontalAlignment(SwingConstants.CENTER);
+		lblPendientesDeCobranza.setBounds(368, 0, 159, 21);
+		panel_2.add(lblPendientesDeCobranza);
+		lblPendientesDeCobranza.setForeground(Color.BLACK);
+		lblPendientesDeCobranza.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 12));
 		
-		JLabel lblCorreo = new JLabel("Correo :");
-		lblCorreo.setForeground(new Color(179, 179, 179));
-		lblCorreo.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 12));
-		lblCorreo.setBounds(691, 199, 59, 15);
-		getContentPane().add(lblCorreo);
+		scrollPane = new JScrollPane();
+		scrollPane.setBackground(Color.WHITE);
+		scrollPane.setBounds(10, 24, 908, 150);
+		panel_2.add(scrollPane);
+		tblPendientesCobranza = new JTable();
+		tblPendientesCobranza.setBackground(Color.WHITE);
+		tblPendientesCobranza.addMouseListener(new MouseAdapter() {
+			
 		
-		JSeparator separator_1 = new JSeparator();
-		separator_1.setForeground(Color.LIGHT_GRAY);
-		separator_1.setBackground(Color.WHITE);
-		separator_1.setBounds(675, 225, 434, 2);
-		getContentPane().add(separator_1);
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				// int column = tblPendientesCobranza.getColumnModel().getColumnIndexAtX(e.getX());
+			        int row = e.getY()/tblPendientesCobranza.getRowHeight();
+			        
+			           idVenta = tblPendientesCobranza.getValueAt(row, 0).toString();
+			            System.out.println(idVenta);
+			            mostrarTablaAbonos();
+			            
+			            
+			            int column = tblPendientesCobranza.getColumnModel().getColumnIndexAtX(e.getX());
+				       
+				        if(row < tblPendientesCobranza.getRowCount() && row >= 0 && column < tblPendientesCobranza.getColumnCount() && column >= 0){
+				            Object value = tblPendientesCobranza.getValueAt(row, column);
+				            if(value instanceof JButton){
+				                ((JButton)value).doClick();
+				                JButton boton = (JButton) value;
+
+				                if(boton.getName().equals("p")){
+				                	
+				                	 int fila1 = tblPendientesCobranza.getSelectedRow();
+					                  System.out.println("el codigo A VER es :"+tblPendientesCobranza.getValueAt(fila1, 0).toString());
+					                  JdialogRegistroAbono cobranzaPendientes=new JdialogRegistroAbono();
+					                  JdialogRegistroAbono.txtSaldo.setText(tblPendientesCobranza.getValueAt(fila1, 7).toString());
+					                  JdialogRegistroAbono.idVenta=(tblPendientesCobranza.getValueAt(fila1, 0).toString());
+					                  
+				                	 
+				                	 cobranzaPendientes.setVisible(true);
+				              
+			            
+				                }
+				                }
+			}}
+		});
+		scrollPane.setViewportView(tblPendientesCobranza);
 		
-		JLabel lblquDeseaHacer = new JLabel("\u00BFQu\u00E9 desea hacer con las cuentas seleccionadas?");
-		lblquDeseaHacer.setHorizontalAlignment(SwingConstants.LEFT);
-		lblquDeseaHacer.setForeground(new Color(112, 112, 112));
-		lblquDeseaHacer.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 13));
-		lblquDeseaHacer.setBounds(712, 238, 334, 21);
-		getContentPane().add(lblquDeseaHacer);
+		lblTotalSaldo = new JLabel();
+		lblTotalSaldo.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblTotalSaldo.setForeground(Color.BLACK);
+		lblTotalSaldo.setFont(new Font("Segoe UI", Font.PLAIN, 20));
+		lblTotalSaldo.setBounds(702, 181, 216, 38);
+		panel_2.add(lblTotalSaldo);
 		
-		JPanel panel = new JPanel();
-		panel.addMouseListener(new MouseAdapter() {
+		JPanel panel_2_1 = new JPanel();
+		panel_2_1.setLayout(null);
+		panel_2_1.setBackground(Color.WHITE);
+		panel_2_1.setBounds(0, 441, 929, 229);
+		getContentPane().add(panel_2_1);
+		
+		JLabel lblPendientesDeCobranza_1 = new JLabel("Lista de Abonos");
+		lblPendientesDeCobranza_1.setHorizontalAlignment(SwingConstants.CENTER);
+		lblPendientesDeCobranza_1.setForeground(Color.BLACK);
+		lblPendientesDeCobranza_1.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 12));
+		lblPendientesDeCobranza_1.setBounds(370, 0, 159, 21);
+		panel_2_1.add(lblPendientesDeCobranza_1);
+		
+		JScrollPane scrollPane_1 = new JScrollPane();
+		scrollPane_1.setBounds(10, 23, 909, 170);
+		panel_2_1.add(scrollPane_1);
+		
+		tblAbonos = new JTable();
+		scrollPane_1.setViewportView(tblAbonos);
+		
+		lbliconAbonar = new JLabel("");
+		lbliconAbonar.setHorizontalAlignment(SwingConstants.CENTER);
+		lbliconAbonar.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		lbliconAbonar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				JdialogCobranzaMediosPago pago=new  JdialogCobranzaMediosPago();
+				JdialogRegistroAbono pago=new  JdialogRegistroAbono();
+				JdialogRegistroAbono.txtSaldo.setText( Double.toString(sumarSaldoCheck()));
 				pago.setVisible(true);
-				pago.setLocationRelativeTo(null);
+				
+				
+				
+				 
+				
+				
+				
 			}
 		});
-		panel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		panel.setBounds(698, 278, 388, 33);
-		panel.setBackground(Color.decode("#1493e1"));
-		getContentPane().add(panel);
-		panel.setLayout(null);
+		new clsArial().modifiedIcon("/img/billete.png", 50, 50, lbliconAbonar);
+		lbliconAbonar.setBounds(10, 149, 51, 36);
+		getContentPane().add(lbliconAbonar);
 		
-		JLabel lblRegistrarCobro = new JLabel("Registrar Cobro");
-		lblRegistrarCobro.setForeground(new Color(250,250,250));
-		lblRegistrarCobro.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 13));
-		lblRegistrarCobro.setHorizontalAlignment(SwingConstants.CENTER);
-		lblRegistrarCobro.setBounds(141, 11, 118, 14);
-		panel.add(lblRegistrarCobro);
+		JLabel lblNewLabel = new JLabel("Abonar");
+		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel.setFont(new Font("Segoe UI", Font.PLAIN, 12));
+		lblNewLabel.setBounds(12, 186, 46, 14);
+		getContentPane().add(lblNewLabel);
 		
-		JLabel lblFijar = new JLabel("Fijar Fecha de posible pago");
-		lblFijar.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		lblFijar.setBorder(null);
-		lblFijar.setHorizontalAlignment(SwingConstants.LEFT);
-		lblFijar.setForeground(Color.decode("#1493e1"));
-		lblFijar.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 13));
-		lblFijar.setBounds(700, 349, 196, 21);
-		getContentPane().add(lblFijar);
+		JLabel lbliconAbonar_1 = new JLabel("");
+		lbliconAbonar_1.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		lbliconAbonar_1.setHorizontalAlignment(SwingConstants.CENTER);
+		new clsArial().modifiedIcon("/img/calendario.png", 35, 30, lbliconAbonar_1);
+		lbliconAbonar_1.setBounds(93, 149, 51, 36);
+		getContentPane().add(lbliconAbonar_1);
 		
-		JPanel panel_1 = new JPanel();
-		panel_1.addMouseListener(new MouseAdapter() {
+		JLabel lblPagare = new JLabel("Pagar\u00E9");
+		lblPagare.setHorizontalAlignment(SwingConstants.CENTER);
+		lblPagare.setFont(new Font("Segoe UI", Font.PLAIN, 12));
+		lblPagare.setBounds(95, 186, 46, 18);
+		getContentPane().add(lblPagare);
+		
+		JLabel lbliconEstCuenta = new JLabel("");
+		lbliconEstCuenta.addMouseListener(new MouseAdapter() {
 			@Override
-			public void mouseClicked(MouseEvent arg0) {
+			public void mouseClicked(MouseEvent e) {
 				JdialogEnvioEstadoCuenta envioEstadoCuenta=new JdialogEnvioEstadoCuenta();
 				envioEstadoCuenta.setVisible(true);
 			}
 		});
-		panel_1.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		panel_1.setLayout(null);
-		panel_1.setBackground(new Color(20, 147, 225));
-		panel_1.setBounds(522, 112, 134, 21);
-		getContentPane().add(panel_1);
+		lbliconEstCuenta.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		lbliconEstCuenta.setHorizontalAlignment(SwingConstants.CENTER);
+		lbliconEstCuenta.setBounds(205, 149, 51, 36);
+		new clsArial().modifiedIcon("/img/correo.png", 50, 30, lbliconEstCuenta);
+		getContentPane().add(lbliconEstCuenta);
 		
-		JLabel lblEnviarEstadoDe = new JLabel("Enviar estado de cuenta");
-		lblEnviarEstadoDe.setBounds(0, 0, 134, 21);
-		panel_1.add(lblEnviarEstadoDe);
-		lblEnviarEstadoDe.setHorizontalAlignment(SwingConstants.CENTER);
-		lblEnviarEstadoDe.setForeground(new Color(250, 250, 250));
-		lblEnviarEstadoDe.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 11));
+		JLabel lblEstadoDeCuenta = new JLabel("Estado de Cuenta");
+		lblEstadoDeCuenta.setHorizontalAlignment(SwingConstants.CENTER);
+		lblEstadoDeCuenta.setFont(new Font("Segoe UI", Font.PLAIN, 12));
+		lblEstadoDeCuenta.setBounds(176, 186, 108, 18);
 		
-		lblTelfono_1 = new JLabel("");
-		lblTelfono_1.setHorizontalAlignment(SwingConstants.CENTER);
-		lblTelfono_1.setForeground(Color.GRAY);
-		lblTelfono_1.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 12));
-		lblTelfono_1.setBounds(760, 147, 159, 15);
-		getContentPane().add(lblTelfono_1);
-		
-		lblCelular_1 = new JLabel("");
-		lblCelular_1.setHorizontalAlignment(SwingConstants.CENTER);
-		lblCelular_1.setForeground(Color.GRAY);
-		lblCelular_1.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 12));
-		lblCelular_1.setBounds(760, 173, 159, 15);
-		getContentPane().add(lblCelular_1);
-		
-		lblCorreo_1 = new JLabel("");
-		lblCorreo_1.setHorizontalAlignment(SwingConstants.CENTER);
-		lblCorreo_1.setForeground(Color.GRAY);
-		lblCorreo_1.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 12));
-		lblCorreo_1.setBounds(760, 199, 159, 15);
-		getContentPane().add(lblCorreo_1);
+		getContentPane().add(lblEstadoDeCuenta);
 
 		
 	}
+	public  double sumarColumna() {
+		
+		int contador=tblPendientesCobranza.getRowCount();
+		double suma=0;
+		for (int i = 0; i < contador; i++) {
+			
+				suma=suma+Double.parseDouble((tblPendientesCobranza.getValueAt(i, 7).toString()));
+				
+			
+			
+		}
+		return suma;
 	
-	void mostrarTabla (){
+	}
+	
+	public double sumarSaldoCheck() {
+		
+		int contador=tblPendientesCobranza.getRowCount();
+		
+		double suma=0;
+		boolean select;
+		for (int i = 0; i < contador; i++) {
+			select=(boolean)tblPendientesCobranza.getValueAt(i, 8);
+			System.out.println(select);
+			if (select==true) {
+				System.out.println(i);
+				suma+=Double.parseDouble((tblPendientesCobranza.getValueAt(i, 7).toString()));
+			}
+			
+				
+				
+			
+			
+		}
+		System.out.println(suma);
+		return suma;
+	}
+	
+	
+	void mostrarTablaCreditos (){
 		
 	
 		  /* TABLA COBRANZA PENDIENTES*/
@@ -258,11 +362,11 @@ public class JdialogCobranzaPendientes extends JDialog {
 						listaCli.add(model);
 						
 						Tabla_Reutilizable ta=new Tabla_Reutilizable();
-						ta.ver_otraTabla(tblPendientesCobranza,  listaCli,model.getColumnCount());
+						ta.ver_tabla(tblPendientesCobranza,  listaCli,model.getColumnCount());
 						
-						
+						System.out.println("el cliente es : "+cliente);
 						ArrayList<Cobranza> listadocoHoy = new GestionFinanzas().listadoxCliente(cliente);
-						
+						System.out.println("el listado es :"+listadocoHoy);
 						Tabla_Reutilizable.listarCobranzaCliente(listadocoHoy);
 		
 						
@@ -272,7 +376,25 @@ public class JdialogCobranzaPendientes extends JDialog {
 							lblCelular_1.setText(c.getCell_cli());
 							lblCorreo_1.setText(c.getCorreo_cli());
 						}
-						tblPendientesCobranza.getColumnModel().getColumn(6).setCellEditor( new Celda_CheckBox() );
-						tblPendientesCobranza.getColumnModel().getColumn( 6 ).setCellRenderer(new Render_CheckBox());
+						
+	}
+	
+	void mostrarTablaAbonos (){
+		
+		
+		  /* TABLA COBRANZA PENDIENTES*/
+				FormatoTablaMain.formatoTabla(tblAbonos);
+						ArrayList<DefaultTableModel>listaCli=new ArrayList<>();
+						listaCli.add(model2);
+						
+						Tabla_Reutilizable ta=new Tabla_Reutilizable();
+						ta.ver_otraTabla(tblAbonos,  listaCli,model2.getColumnCount());
+						
+						
+						ArrayList<Abono> listadocoHoy = new GestionFinanzas().listadoAbonos(idVenta);
+						
+						Tabla_Reutilizable.listarAbonos(listadocoHoy);
+		
+				
 	}
 }

@@ -31,6 +31,7 @@ import javax.swing.table.DefaultTableModel;
 
 import model.Clientes;
 import model.RoundedCornerBorder;
+import utils.FormatoTablaMain;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -230,20 +231,10 @@ public class IntCliente extends JInternalFrame {
 		dk.add(scrollPane);
 		tblClientes = new JTable();
 	
-		tblClientes.setRowHeight(25);
-		tblClientes.setIntercellSpacing(new Dimension(1, 3));
-		tblClientes.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
-		tblClientes.setGridColor(Color.LIGHT_GRAY);
-		tblClientes.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		
-		tblClientes.getTableHeader().setOpaque(false);
-		
-		tblClientes.getTableHeader().setForeground(Color.decode("#f7edd7"));
-		tblClientes.getTableHeader().setFont(new Font("Arial", 1, 12));
-		tblClientes.getTableHeader().setSize(WIDTH,100);
-		tblClientes.getTableHeader().setPreferredSize(new java.awt.Dimension(0, 35));
 		
 		scrollPane.setViewportView(tblClientes);
+		FormatoTablaMain.formatoTabla(tblClientes);
 		 tblClientes.setModel(model);
 
 	}

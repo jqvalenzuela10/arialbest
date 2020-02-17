@@ -32,8 +32,12 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JTextArea;
 import javax.swing.border.LineBorder;
+
+import utils.clsArial;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.Toolkit;
 
 public class JdialogEnvioEstadoCuenta extends JDialog {
 	private JTextField textField_1;
@@ -41,6 +45,7 @@ public class JdialogEnvioEstadoCuenta extends JDialog {
 	private JTextField txtRemitente;
 	private JTextField txtReceptor;
 	private JTextArea txtObservaciones;
+	private JLabel lbliconMail;
 
 	/**
 	 * Launch the application.
@@ -63,25 +68,14 @@ public class JdialogEnvioEstadoCuenta extends JDialog {
 	 * Create the dialog.
 	 */
 	public JdialogEnvioEstadoCuenta() {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(JdialogEnvioEstadoCuenta.class.getResource("/img/correo2.png")));
+		setTitle("                                                    Envio Estado de Cuenta");
 		
 		getContentPane().setBackground(Color.WHITE);
 		setBounds(100, 100, 504, 538);
 		setModal(true);
 		setLocationRelativeTo(null);
 		getContentPane().setLayout(null);
-		
-		JPanel panel = new JPanel();
-		panel.setBackground(Color.decode("#1493e1"));
-		panel.setBounds(0, 0, 488, 47);
-		getContentPane().add(panel);
-		panel.setLayout(null);
-		
-		JLabel lblCobranzaMedios = new JLabel("ENVIO DE CORREO");
-		lblCobranzaMedios.setForeground(new Color(240,240,240));
-		lblCobranzaMedios.setFont(new Font("Segoe UI", Font.BOLD, 14));
-		lblCobranzaMedios.setHorizontalAlignment(SwingConstants.CENTER);
-		lblCobranzaMedios.setBounds(125, 11, 248, 14);
-		panel.add(lblCobranzaMedios);
 		
 		JButton btnEnviar = new JButton("Enviar");
 		btnEnviar.addActionListener(new ActionListener() {
@@ -224,6 +218,12 @@ public class JdialogEnvioEstadoCuenta extends JDialog {
 		txtRemitente.setBorder(null);
 		txtRemitente.setBounds(84, 58, 389, 20);
 		getContentPane().add(txtRemitente);
+		
+		lbliconMail = new JLabel("");
+		lbliconMail.setHorizontalAlignment(SwingConstants.CENTER);
+		new clsArial().modifiedIcon("/img/correo2.png", 50, 50, lbliconMail);
+		lbliconMail.setBounds(200, 0, 69, 50);
+		getContentPane().add(lbliconMail);
 
 	}
 }

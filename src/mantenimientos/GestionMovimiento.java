@@ -21,7 +21,7 @@ public class GestionMovimiento implements InterfaceMovimiento{
 	
 		try {
 			con=MySQLconexion.getConexion();
-			String sql1="insert into movimiento values(null,curdate(),?,?,?,?,?,?,?,?,default);";
+			String sql1="insert into movimiento values(null,curdate(),?,?,?,?,?,?,?,?,?,default);";
 			pst1=con.prepareStatement(sql1);
 			if(m.getNro_ven()==0) {
 				pst1.setString(3,null);
@@ -44,7 +44,8 @@ public class GestionMovimiento implements InterfaceMovimiento{
 			pst1.setDouble(5,m.getEntrada());
 			pst1.setDouble(6,m.getSalida());
 			pst1.setDouble(7,m.getSaldo());
-			pst1.setInt(8, m.getCodcaja());
+			pst1.setString(8, m.getIdUsu());
+			pst1.setInt(9, m.getCodcaja());
 			
 			
 			rs=pst1.executeUpdate();

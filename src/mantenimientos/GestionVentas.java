@@ -65,15 +65,22 @@ public int realizaVenta(Ventas venta, ArrayList<DetalleVentas> detalle) {
 				con=MySQLconexion.getConexion();
 				con.setAutoCommit(false);
 							//insert ventas values(null,'Factura','2018/11/10',1,1);
-				String sql1="insert into ventas values(null,SYSDATE(),?,?,?,?,?,?)";
+				String sql1="insert into ventas values(null,SYSDATE(),?,?,?,?,?,?,?,?)";
 				pst1=con.prepareStatement(sql1);
 
+				if(venta.getNroCotizacion()==0) {
+					pst1.setString(8,null);
+					}
+					else {
+						pst1.setInt(8, venta.getNroCotizacion());
+					}
 				pst1.setString(1, venta.getFecha_vencimiento());
 				pst1.setInt(2, venta.getId_cli());
 				pst1.setInt(3, venta.getId_emp());
 				pst1.setString(4,venta.getDoc_ven());
 				pst1.setString(5,venta.getNumeroComprovante());
 				pst1.setString(6, venta.getFormaPago());
+			pst1.setString(7, venta.getEstado());
 			
 				resultado=pst1.executeUpdate();
 				con.commit();
@@ -103,7 +110,7 @@ public int realizaVenta(Ventas venta, ArrayList<DetalleVentas> detalle) {
 			} catch (Exception ex) {
 				try {
 					con.rollback();
-					System.out.println("Ocurrio un evento inesperado en el metodo insertar boleta : "+ex.getMessage());
+					System.out.println("Ocurrio un evento inesperado en el metodo insertar boleta ventas : "+ex.getMessage());
 					resultado=0;
 				} catch (SQLException e) {
 					System.out.println("Error en el Rollback "+e.getMessage());

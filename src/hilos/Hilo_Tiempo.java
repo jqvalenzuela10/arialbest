@@ -40,11 +40,7 @@ public class Hilo_Tiempo extends Thread{
 				}
 				
 				
-				
-				if(IntVentasWindow.lblFecha!=null) {
-					IntVentasWindow.lblReloj.setText(sdf.format(tiempo));
-					IntVentasWindow.lblFecha.setText(sdf1.format(tiempo));
-				}
+			
 				
 			}
 			
