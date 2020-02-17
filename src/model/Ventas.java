@@ -1,9 +1,21 @@
 package model;
 
 public class Ventas {
-	private int Nro_ven ,id_cli,id_emp;
-	private String doc_ven,fech_ven,numeroComprovante,fecha_vencimiento,formaPago;
+	private int Nro_ven ,id_cli,id_emp,nroCotizacion;
+	public int getNroCotizacion() {
+		return nroCotizacion;
+	}
+	public void setNroCotizacion(int nroCotizacion) {
+		this.nroCotizacion = nroCotizacion;
+	}
+	private String doc_ven,fech_ven,numeroComprovante,fecha_vencimiento,formaPago,estado;
 	
+	public String getEstado() {
+		return estado;
+	}
+	public void setEstado(String estado) {
+		this.estado = estado;
+	}
 	public String getFormaPago() {
 		return formaPago;
 	}

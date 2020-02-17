@@ -31,6 +31,7 @@ import model.DetalleCotizacion;
 import model.DetalleVentas;
 import model.Render;
 import utils.FormatoTablaMain;
+import utils.clsArial;
 
 import javax.swing.JTable;
 import java.awt.event.MouseAdapter;
@@ -40,20 +41,18 @@ import java.awt.event.WindowEvent;
 
 public class JdialogCotizacion extends JDialog {
 	public static JLabel lblCodigoCli;
-	public static  JTextField txtCliente;
 	private JTextField txtCantidad;
 	private JTextField txtDescuento;
 	public static JLabel lblCodigo;
 	public static JLabel lblPrecio;
 	public static JLabel lblDescripcion;
 	private JDateChooser dtmFechaVencimiento;
-	private JLabel lblTotal;
 	private JTable tblCotizacion;
 	private JLabel lblNroCotizacion;
-	private JLabel lblUsuario;
 	public String numeroCotizacion;
-
+	public int fila;
 	public int numero;
+	public static JTextField txtCliente;
 	DefaultTableModel model=new DefaultTableModel();
 	/**
 	 * Launch the application.
@@ -72,12 +71,7 @@ public class JdialogCotizacion extends JDialog {
 	 * Create the dialog.
 	 */
 	public JdialogCotizacion() {
-		addWindowListener(new WindowAdapter() {
-			@Override
-			public void windowOpened(WindowEvent arg0) {
-				lblUsuario.setText(FrmLogin.e.getNom_emp());
-			}
-		});
+	
 		getContentPane().setBackground(Color.WHITE);
 		setBounds(100, 100, 1626, 947);
 		getContentPane().setLayout(null);
@@ -104,16 +98,6 @@ public class JdialogCotizacion extends JDialog {
 		panel_1.setBounds(1, 0, 1316, 66);
 		panel.add(panel_1);
 		
-		JLabel label = new JLabel("Usuario");
-		label.setForeground(Color.WHITE);
-		label.setBounds(10, 28, 78, 14);
-		panel_1.add(label);
-		
-		lblUsuario = new JLabel();
-		lblUsuario.setForeground(Color.WHITE);
-		lblUsuario.setBounds(85, 28, 58, 14);
-		panel_1.add(lblUsuario);
-		
 		JLabel label_2 = new JLabel("");
 		label_2.setForeground(Color.WHITE);
 		label_2.setFont(new Font("Segoe UI", Font.PLAIN, 14));
@@ -138,37 +122,16 @@ public class JdialogCotizacion extends JDialog {
 		lblNroCotizacion.setBounds(1209, 28, 78, 14);
 		panel_1.add(lblNroCotizacion);
 		
-		JLabel label_5 = new JLabel("Cotizaciones");
-		label_5.setForeground(Color.WHITE);
-		label_5.setFont(new Font("Segoe UI", Font.BOLD, 18));
-		label_5.setBounds(594, 18, 145, 27);
-		panel_1.add(label_5);
+		label = new JLabel("");
+		label.setBounds(157, 11, 111, 44);
+		clsArial c=new clsArial();
+		c.modifiedIcon("/iconos/cotizacion.png", 80, 50, label);
+		
+		panel_1.add(label);
 		
 		JLabel label_6 = new JLabel("");
 		label_6.setBounds(148, 121, 30, 20);
 		panel.add(label_6);
-		
-		txtCliente = new JTextField();
-		txtCliente.setColumns(10);
-		txtCliente.setBounds(188, 121, 199, 20);
-		panel.add(txtCliente);
-		
-		JLabel label_7 = new JLabel("");
-		label_7.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				FrmBuscarLClienteCotizacion f=new FrmBuscarLClienteCotizacion();
-				f.setVisible(true);
-				f.setLocationRelativeTo(null);
-			}
-		});
-		label_7.setBackground(Color.BLACK);
-		label_7.setBounds(397, 121, 20, 20);
-		panel.add(label_7);
-		
-		JLabel label_8 = new JLabel("");
-		label_8.setBounds(158, 208, 30, 30);
-		panel.add(label_8);
 		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(479, 277, 706, 285);
@@ -179,50 +142,61 @@ public class JdialogCotizacion extends JDialog {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 
-				int fila=tblCotizacion.getSelectedRow();
+				 int column = tblCotizacion.getColumnModel().getColumnIndexAtX(e.getX());
+			        int row = e.getY()/tblCotizacion.getRowHeight();
+			        
+			        if(row < tblCotizacion.getRowCount() && row >= 0 && column < tblCotizacion.getColumnCount() && column >= 0){
+			            Object value = tblCotizacion.getValueAt(row, column);
+			            if(value instanceof JButton){
+			                ((JButton)value).doClick();
+			                JButton boton = (JButton) value;
+			                if(boton.getName().equals("eliminar")){
+			                	JOptionPane.showMessageDialog(null, "eliminado");
+								 model.removeRow(fila);
+			    				
+			                   
+			                }
+			                
+			               
+			            }
+			            
+			          /*  if(value instanceof JCheckBox){
+			                //((JCheckBox)value).doClick();
+			                JCheckBox ch = (JCheckBox)value;
+			                if(ch.isSelected()==true){
+			                    ch.setSelected(false);
+			                }
+			                if(ch.isSelected()==false){
+			                    ch.setSelected(true);
+			                }
+			                
+			            }*/
+			            else  {
+							 
+							 
+		    				String codigo=tblCotizacion.getValueAt(fila, 0).toString();
+		    				String descripcion=tblCotizacion.getValueAt(fila, 1).toString();
+		    				String cantidad=tblCotizacion.getValueAt(fila, 2).toString();
+		    				String precio=tblCotizacion.getValueAt(fila, 3).toString();
+		    				String descuento=tblCotizacion.getValueAt(fila, 4).toString();
+		    				lblCodigo.setText(codigo);
+		    				lblDescripcion.setText(descripcion);
+		    				txtCantidad.setText(cantidad);
+		    				lblPrecio.setText(precio);
+		    				txtDescuento.setText(descuento);
+		    			}
+			        }
+			    
 			
 				
-				String dato=String.valueOf(tblCotizacion.getValueAt(fila, 5));
-			System.out.println(dato);
-				 if(dato.toString().equals("eliminar")) {
-					 JOptionPane.showMessageDialog(null, "eliminado");
-					 model.removeRow(fila);
-				 }
-				 else {
-					 
-					 
-				String codigo=tblCotizacion.getValueAt(fila, 0).toString();
-				String descripcion=tblCotizacion.getValueAt(fila, 1).toString();
-				String cantidad=tblCotizacion.getValueAt(fila, 2).toString();
-				String precio=tblCotizacion.getValueAt(fila, 3).toString();
-				
-				lblCodigo.setText(codigo);
-				lblDescripcion.setText(descripcion);
-				txtCantidad.setText(cantidad);
-				lblPrecio.setText(precio);
-			}
-			}
+			 }
+			
+			
 		});
 		tblCotizacion.setModel(model);
 		scrollPane.setViewportView(tblCotizacion);
 		
 		FormatoTablaMain.formatoTabla(tblCotizacion);
-		
-		JLabel label_9 = new JLabel("Total");
-		label_9.setBounds(1001, 604, 54, 20);
-		panel.add(label_9);
-		
-		lblTotal = new JLabel("");
-		lblTotal.setBounds(1102, 604, 83, 20);
-		panel.add(lblTotal);
-		
-		JButton btnGrabar = new JButton("Grabar");
-		btnGrabar.setBounds(779, 674, 89, 23);
-		panel.add(btnGrabar);
-		
-		lblCodigoCli = new JLabel("");
-		lblCodigoCli.setBounds(453, 127, 46, 14);
-		panel.add(lblCodigoCli);
 		
 		JLabel label_12 = new JLabel("fecha vencimiento");
 		label_12.setBounds(894, 111, 113, 30);
@@ -232,18 +206,6 @@ public class JdialogCotizacion extends JDialog {
 		dtmFechaVencimiento.setDateFormatString("yyyy/MM/dd");
 		dtmFechaVencimiento.setBounds(1045, 121, 109, 20);
 		panel.add(dtmFechaVencimiento);
-		
-		JPanel btnAgregar = new JPanel();
-		btnAgregar.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				FrmBuscarProductoCotizacion frm=new FrmBuscarProductoCotizacion();
-				frm.setVisible(true);
-				frm.setLocationRelativeTo(null);
-			}
-		});
-		btnAgregar.setBounds(198, 208, 121, 29);
-		panel.add(btnAgregar);
 		
 		JPanel panel_3 = new JPanel();
 		panel_3.setLayout(null);
@@ -293,6 +255,7 @@ public class JdialogCotizacion extends JDialog {
 			public void mouseClicked(MouseEvent arg0) {
 				
 				
+				
 				if(lblCodigo.getText().isEmpty()) {
 					JOptionPane.showMessageDialog(null, "busque un producto");
 				}
@@ -307,8 +270,8 @@ public class JdialogCotizacion extends JDialog {
 						tblCotizacion.setValueAt(txtCantidad.getText(), fila, 2);
 						int cantidad=Integer.parseInt(txtCantidad.getText());
 						double precio=Double.parseDouble(lblPrecio.getText());
-						
-						tblCotizacion.setValueAt(precio*cantidad, fila, 4);
+						double descuento=Double.parseDouble(txtDescuento.getText());
+						tblCotizacion.setValueAt( (precio*cantidad)-(descuento*((precio*cantidad)/100)), fila, 5);
 						
 						double tota=calcularTotal();
 						lblTotal.setText(tota+"");
@@ -320,25 +283,27 @@ public class JdialogCotizacion extends JDialog {
 					String descripcion=lblDescripcion.getText();
 					double precio=Double.parseDouble(lblPrecio.getText());
 					int cantidad=Integer.parseInt(txtCantidad.getText());
-					double importe=precio*cantidad;
+					double descuento=Double.parseDouble(txtDescuento.getText());
+					double importe=(precio*cantidad)-(descuento*((precio*cantidad)/100));
 				 
 					
 				
-				Object[] filas = new Object[6];
+				Object[] filas = new Object[7];
 
 				filas[0] = codigo;
 				filas[1] = descripcion;
 				filas[2]=cantidad;
 				filas[3] = precio;
-				filas[4]=importe;
+				filas[4]=descuento;
+				filas[5]=importe;
 				
-				 IntVentasWindow.tblProducto.setDefaultRenderer(Object.class, new Render());
+				 tblCotizacion.setDefaultRenderer(Object.class, new Render());
 				 
 				 
 				 
 				
 				 
-				 	JButton btnEliminar = new JButton("eliminar");
+				 	JButton btnEliminar = new JButton();
 			        ImageIcon delete = new ImageIcon(getClass().getResource("/img/eliminar.png"));
 			    	Image i = delete.getImage().getScaledInstance(24, 24, Image.SCALE_SMOOTH);
 			    	Icon ic = new ImageIcon(i);
@@ -346,7 +311,7 @@ public class JdialogCotizacion extends JDialog {
 			    	btnEliminar.setName("eliminar");
 			
 			    
-				filas[5]=btnEliminar;
+				filas[6]=btnEliminar;
 				
 				model.addRow(filas);
 				double tota=calcularTotal();
@@ -356,6 +321,7 @@ public class JdialogCotizacion extends JDialog {
 				lblDescripcion.setText("");
 				lblPrecio.setText("");
 				txtCantidad.setText("");
+txtDescuento.setText("");
 
 				}
 					
@@ -381,6 +347,96 @@ public class JdialogCotizacion extends JDialog {
 		JLabel label_21 = new JLabel("%");
 		label_21.setBounds(177, 222, 32, 18);
 		panel_3.add(label_21);
+		
+		JPanel btnAgregar = new JPanel();
+		btnAgregar.setBounds(46, 11, 121, 29);
+		panel_3.add(btnAgregar);
+		
+		JLabel label_8 = new JLabel("");
+		label_8.setBounds(10, 16, 30, 30);
+		panel_3.add(label_8);
+		btnAgregar.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				FrmBuscarProductoCotizacion frm=new FrmBuscarProductoCotizacion();
+				frm.setVisible(true);
+				frm.setLocationRelativeTo(null);
+			}
+		});
+		
+		JPanel panel_2 = new JPanel();
+		panel_2.setLayout(null);
+		panel_2.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+		panel_2.setBackground(Color.WHITE);
+		panel_2.setBounds(158, 77, 284, 187);
+		panel.add(panel_2);
+		
+		JLabel label_1 = new JLabel("");
+		label_1.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				FrmBuscarLClienteCotizacion f=new FrmBuscarLClienteCotizacion();
+				f.setVisible(true);
+				f.setLocationRelativeTo(null);
+			}
+		});
+		label_1.setBackground(Color.BLACK);
+		label_1.setBounds(222, 39, 20, 20);
+		panel_2.add(label_1);
+		
+		txtCliente = new JTextField();
+		txtCliente.setColumns(10);
+		txtCliente.setBounds(10, 39, 199, 20);
+		panel_2.add(txtCliente);
+		
+		JPanel panel_4 = new JPanel();
+		panel_4.setLayout(null);
+		panel_4.setBackground(new Color(45, 54, 63));
+		panel_4.setBounds(0, 0, 285, 28);
+		panel_2.add(panel_4);
+		
+		JLabel label_4 = new JLabel("Datos del Cliente");
+		label_4.setForeground(Color.WHITE);
+		label_4.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		label_4.setBounds(10, 0, 117, 25);
+		panel_4.add(label_4);
+		
+		JLabel label_10 = new JLabel("");
+		label_10.setBounds(125, 5, 30, 20);
+		panel_4.add(label_10);
+		
+		JPanel panel_5 = new JPanel();
+		panel_5.setLayout(null);
+		panel_5.setBackground(new Color(45, 54, 63));
+		panel_5.setBounds(1, 737, 1316, 38);
+		panel.add(panel_5);
+		
+		JLabel label_7 = new JLabel("Total   S/");
+		label_7.setForeground(Color.WHITE);
+		label_7.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		label_7.setBounds(1055, 11, 54, 20);
+		panel_5.add(label_7);
+		
+		lblTotal = new JLabel("0.00");
+		lblTotal.setForeground(Color.WHITE);
+		lblTotal.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		lblTotal.setBounds(1119, 11, 71, 20);
+		panel_5.add(lblTotal);
+		
+		JButton button = new JButton("Grabar");
+		button.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				grabar();
+				dispose();
+			}
+		});
+		button.setBounds(1217, 11, 89, 23);
+		panel_5.add(button);
+		
+		lblCodigoCli = new JLabel("");
+		lblCodigoCli.setBounds(479, 135, 35, 14);
+		panel.add(lblCodigoCli);
 	}
 
 	ArrayList<DetalleCotizacion> carrito=new ArrayList<>();
@@ -394,7 +450,7 @@ public class JdialogCotizacion extends JDialog {
 		
 		idUsu=FrmLogin.e.getId_emp();
 		total=Double.parseDouble(lblTotal.getText());
-		idCli=Integer.parseInt(lblCodigo.getText());
+		idCli=Integer.parseInt(lblCodigoCli.getText());
 		SimpleDateFormat sdf=new SimpleDateFormat("yyyy/MM/dd");
 		fechaVen=sdf.format(dtmFechaVencimiento.getDate());
 		
@@ -418,9 +474,7 @@ public class JdialogCotizacion extends JDialog {
 			deta.setPrecio(Double.parseDouble(tblCotizacion.getValueAt(i, 3).toString()));
 			deta.setDescuento(Double.parseDouble(tblCotizacion.getValueAt(i, 4).toString()));
 			
-			double precio=Double.parseDouble(tblCotizacion.getValueAt(i, 3).toString());
-			int can=Integer.parseInt(tblCotizacion.getValueAt(i, 2).toString());
-			importe=precio*can;
+		 importe=Double.parseDouble(tblCotizacion.getValueAt(i, 5).toString());
 			total+=importe;
 			carrito.add(deta);
 		}
@@ -455,12 +509,15 @@ public class JdialogCotizacion extends JDialog {
 	double tot=0;
 	double imp=0;
 	
+	private JLabel lblTotal;
+	private JLabel label;
+	
 	public double calcularTotal() {
 		if(tot!=0) {
 			tot=0;
 			for(int i=0;i<tblCotizacion.getRowCount();i++) {
 				
-				imp=Double.parseDouble(tblCotizacion.getValueAt(i, 4).toString());
+				imp=Double.parseDouble(tblCotizacion.getValueAt(i, 5).toString());
 				tot+=imp;
 				
 			}
@@ -468,7 +525,7 @@ public class JdialogCotizacion extends JDialog {
 			
 		for(int i=0;i<tblCotizacion.getRowCount();i++) {
 			
-			imp=Double.parseDouble(tblCotizacion.getValueAt(i, 4).toString());
+			imp=Double.parseDouble(tblCotizacion.getValueAt(i, 5).toString());
 			tot+=imp;
 			
 		}

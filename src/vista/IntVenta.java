@@ -17,6 +17,7 @@ import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.event.ActionListener;
 import java.beans.PropertyVetoException;
+import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import java.awt.Rectangle;
 import javax.swing.JTable;
@@ -31,6 +32,7 @@ import java.awt.SystemColor;
 import javax.swing.border.LineBorder;
 
 import model.RoundedCornerBorder;
+import utils.FocusJpanel;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -58,9 +60,11 @@ public class IntVenta extends JInternalFrame {
 	private String colorNegro="#38383c";
 	private String colorPlomo="#808793";
 	private String colorFondo="#ebf0f4";
-	private JDesktopPane dk;
-	public  static JPanel panel_2;
-	private JPanel panel_3;
+	public static  JDesktopPane dk;
+	public  static JPanel rayaVenta;
+	private JPanel rayaCliente;
+	private JPanel rayaCotizacion;
+	private JLabel panelCliente;
 
 	/**
 	 * Launch the application.
@@ -138,122 +142,18 @@ public class IntVenta extends JInternalFrame {
 		panel_1.setBounds(0, 0, 1642, 79);
 		getContentPane().add(panel_1);
 		panel_1.setLayout(null);
-		JLabel opc1 = new JLabel("Venta");
-		JLabel opc2 = new JLabel("Cliente");
-		JPanel panel_11 = new JPanel();
-		
-		
-		panel_11.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		panel_11.setBorder(null);
-		panel_11.setBackground(Color.decode("#f3f4f5"));
-
-		panel_11.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent arg0) {
-				
-				opc1.setForeground(Color.decode(colorNegro));
-				panel_2.setVisible(true);
-				
-				opc2.setForeground(Color.decode(colorPlomo));
-				panel_3.setVisible(false);
-				
-				dk.removeAll();
-				dk.repaint();
-				IntVentasWindow cliente=new IntVentasWindow();
-				dk.add(cliente);
-				
-				try {
-					cliente.setMaximum(true);
-					cliente.setUI(null);  //<------------ QUITAR BORDE DE UN INTERNAL FRAME  
-					cliente.show(); 
-				} catch (PropertyVetoException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				
-			}
-			
-		});
-	
-		
-		panel_11.setBounds(79, 33, 120, 45);
-		panel_1.add(panel_11);
-		panel_11.setLayout(null);
-		
-		
-		
-		opc1.setHorizontalAlignment(SwingConstants.CENTER);
-		opc1.setForeground(Color.decode(colorPlomo));
-		opc1.setBounds(1, 5, 118, 27);
-		panel_11.add(opc1);
-		
-		opc1.setFont(new Font("Segoe UI", Font.BOLD, 14));
-		
-		panel_2 = new JPanel();
-		panel_2.setBounds(28, 40, 70, 3);
-		panel_11.add(panel_2);
-		panel_2.setBackground(Color.decode(colorCeleste));
-		
-		JPanel panel_12 = new JPanel();
-		panel_12.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		panel_12.setBackground(Color.decode("#f3f4f5"));
-		panel_12.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				
-				opc2.setForeground(Color.decode(colorNegro));
-				panel_3.setVisible(true);
-				
-				opc1.setForeground(Color.decode(colorPlomo));
-				panel_2.setVisible(false);
-				
-				
-				dk.removeAll();
-				dk.repaint();
-				IntCliente venta=new IntCliente();
-				dk.add(venta);
-				try {
-					venta.setMaximum(true);
-					venta.setUI(null);  //<------------ QUITAR BORDE DE UN INTERNAL FRAME  
-					venta.show(); 
-					
-				
-			
-				
-				
-				} catch (Exception ex) {
-					// TODO: handle exception
-				}
-				
-			
-				
-				
-			}
-			
-		});
-		
-		
-		
-		panel_12.setBounds(405, 33, 120, 45);
-		panel_1.add(panel_12);
-		panel_12.setLayout(null);
-		
-		opc2.setHorizontalAlignment(SwingConstants.CENTER);
-		opc2.setForeground(Color.decode(colorPlomo));
-		opc2.setBounds(0, 0, 121, 29);
-		panel_12.add(opc2);
-		
-		opc2.setFont(new Font("Segoe UI", Font.BOLD, 14));
-		
-		panel_3 = new JPanel();
-		panel_3.setBounds(32, 40, 70, 3);
-		panel_12.add(panel_3);
-		panel_3.setBackground(Color.decode(colorCeleste));
 		
 		JLabel lblCotizacion = new JLabel("Cotizacion");
+		lblCotizacion.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		lblCotizacion.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
+				
+				ArrayList<JPanel>listado=new ArrayList<>();
+				listado.add(rayaVenta);
+				listado.add(rayaCliente);
+				
+				FocusJpanel.lanzarFoco(rayaCotizacion, listado);
 				dk.removeAll();
 				dk.repaint();
 				IntGestionCotizacion coti=new IntGestionCotizacion();
@@ -278,10 +178,99 @@ public class IntVenta extends JInternalFrame {
 		lblCotizacion.setHorizontalAlignment(SwingConstants.CENTER);
 		lblCotizacion.setForeground(new Color(128, 135, 147));
 		lblCotizacion.setFont(new Font("Segoe UI", Font.BOLD, 14));
-		lblCotizacion.setBounds(241, 33, 121, 29);
+		lblCotizacion.setBounds(241, 33, 121, 35);
 		panel_1.add(lblCotizacion);
-		panel_3.setVisible(false);
-		panel_2.setVisible(false);
+		panelCliente = new JLabel("Venta");
+		panelCliente.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		panelCliente.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+		
+
+				ArrayList<JPanel>listado=new ArrayList<>();
+				listado.add(rayaCotizacion);
+				listado.add(rayaCliente);
+				
+				FocusJpanel.lanzarFoco(rayaVenta, listado);
+				
+				
+				
+				dk.removeAll();
+				dk.repaint();
+				IntVentasWindow cliente=new IntVentasWindow();
+				dk.add(cliente);
+				
+				try {
+					cliente.setMaximum(true);
+					cliente.setUI(null);  //<------------ QUITAR BORDE DE UN INTERNAL FRAME  
+					cliente.show(); 
+				} catch (PropertyVetoException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
+		panelCliente.setBounds(67, 33, 118, 35);
+		panel_1.add(panelCliente);
+		
+		
+		
+		panelCliente.setHorizontalAlignment(SwingConstants.CENTER);
+		panelCliente.setForeground(Color.decode(colorPlomo));
+		
+		panelCliente.setFont(new Font("Segoe UI", Font.BOLD, 14));
+		
+		rayaVenta = new JPanel();
+		rayaVenta.setBounds(94, 71, 70, 3);
+		panel_1.add(rayaVenta);
+		rayaVenta.setBackground(Color.decode(colorCeleste));
+		
+		rayaCotizacion = new JPanel();
+		rayaCotizacion.setBackground(new Color(15, 149, 236));
+		rayaCotizacion.setBounds(267, 73, 68, 3);
+		rayaCotizacion.setVisible(false);
+		panel_1.add(rayaCotizacion);
+		JLabel opc2 = new JLabel("Cliente");
+		opc2.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		opc2.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				ArrayList<JPanel>listado=new ArrayList<>();
+				listado.add(rayaCotizacion);
+				listado.add(rayaVenta);
+				
+				FocusJpanel.lanzarFoco(rayaCliente, listado);
+				
+				dk.removeAll();
+				dk.repaint();
+				IntCliente cliente=new IntCliente();
+				dk.add(cliente);
+				
+				try {
+					cliente.setMaximum(true);
+					cliente.setUI(null);  //<------------ QUITAR BORDE DE UN INTERNAL FRAME  
+					cliente.show(); 
+				} catch (PropertyVetoException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+			}
+		});
+		opc2.setBounds(414, 33, 121, 35);
+		panel_1.add(opc2);
+		
+		opc2.setHorizontalAlignment(SwingConstants.CENTER);
+		opc2.setForeground(Color.decode(colorPlomo));
+		
+		opc2.setFont(new Font("Segoe UI", Font.BOLD, 14));
+		
+		rayaCliente = new JPanel();
+		rayaCliente.setBounds(441, 71, 70, 3);
+		panel_1.add(rayaCliente);
+		rayaCliente.setBackground(Color.decode(colorCeleste));
+		rayaCliente.setVisible(false);
+		
 		
 		
 

@@ -83,7 +83,7 @@ frame.setLocationRelativeTo(null);
 
 /*NOSE PORQUE FUNCIONA LO DE ENFOCAR EL TEXFIELD "INGRESE USUARIO" AQUI SI NO LO PONGO EN OTRO LADO NO SE ENFOCA*/
 txtIngUsu.requestFocus();// <---------- ENFOCA EL TEXFIELD PARA
-//FUNCIONALIDAD DEL SETCARETPOSITION
+//FUNCIONALIDAD DEL SETCARETPOSITION c
 txtIngUsu.setCaretPosition(0); 
 } catch (Exception e) {
 e.printStackTrace();

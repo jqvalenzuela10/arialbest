@@ -32,7 +32,7 @@ public class FormatoTablaMain {
 		tabla.setRowHeight(30);
 		tabla.setDefaultRenderer(Object.class, new FormatoTabla());
 		tabla.setForeground(Color.decode("#39393C"));
-		
+
 		
 		
 	        

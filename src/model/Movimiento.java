@@ -2,7 +2,13 @@ package model;
 
 public class Movimiento {
 	
-	String comentario,tipo_movimiento,nomCaja,fecha;
+	String comentario,tipo_movimiento,nomCaja,fecha,idUsu;
+	public String getIdUsu() {
+		return idUsu;
+	}
+	public void setIdUsu(String idUsu) {
+		this.idUsu = idUsu;
+	}
 	public String getFecha() {
 		return fecha;
 	}

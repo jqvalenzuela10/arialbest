@@ -3,6 +3,7 @@ package vista;
 import java.awt.EventQueue;
 
 import javax.swing.JInternalFrame;
+import javax.management.modelmbean.ModelMBean;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -90,22 +91,7 @@ public static DefaultTableModel model2=new DefaultTableModel();
 	 * Create the frame.
 	 */
 	public IntCobranza() {
-		addInternalFrameListener(new InternalFrameAdapter() {
-			@Override
-			public void internalFrameOpened(InternalFrameEvent arg0) {
-	             /* TABLA COBRANZA HOY*/
-				FormatoTablaMain.formatoTabla(tblCobranzaHoy);
-						ArrayList<DefaultTableModel>listaHoy=new ArrayList<>();
-						listaHoy.add(model2);
-						
-						Tabla_Reutilizable ta=new Tabla_Reutilizable();
-						ta.ver_otraTabla(tblCobranzaHoy,  listaHoy,model2.getColumnCount());
-						
-						
-						ArrayList<Cobranza> listadocoHoy = new GestionFinanzas().listadoCobranzaHoy();
-						Tabla_Reutilizable.listarCobranzaHoy(listadocoHoy);
-			}
-		});
+		
 		getContentPane().setBackground(Color.decode("#ebf0f4"));
 		setBounds(0, 68, 1642, 851);
 		setBorder(null);
@@ -147,27 +133,34 @@ public static DefaultTableModel model2=new DefaultTableModel();
 		
 		model.setRowCount(0);
 		model.setColumnCount(0);
+	
 		model.addColumn("cliente");
-		model.addColumn("tipo Doc.");
-		model.addColumn("Doc. Id");
-		model.addColumn("Tipo");
-		model.addColumn("Numero");
-		model.addColumn("Condiciones");
-		model.addColumn("Emision");
-		model.addColumn("Vencimiento");
-		model.addColumn("Vendedor");
-		model.addColumn("Moneda");
-		model.addColumn("Total");
-		model.addColumn("Abono");
-		model.addColumn("Saldo");
-		model.addColumn("Vence(dias)");
-		model.addColumn("Dias mora");
+		model.addColumn("Telefono");
+		model.addColumn("Celular");
+
+		model.addColumn("Deuda");
 		model.addColumn("");
+		//model.addColumn("tipo Doc.");
+		//model.addColumn("Doc. Id");
+		//model.addColumn("Tipo");
+		//model.addColumn("Numero");
+		//model.addColumn("Condiciones");
+		//model.addColumn("Emision");
+	//	model.addColumn("Vencimiento");
+		//model.addColumn("Vendedor");
+	//	model.addColumn("Moneda");
+		//model.addColumn("Total");
+		//model.addColumn("Abono");
+		//model.addColumn("Saldo");
+		//model.addColumn("Vence(dias)");
+		//model.addColumn("Dias mora");
+		
 		
 		model2.setRowCount(0);
 		model2.setColumnCount(0);
+
 		model2.addColumn("Cliente");
-		model2.addColumn("Moneda");
+		
 		model2.addColumn("Pendiente");
 		model2.addColumn("");
 	
@@ -221,7 +214,7 @@ public static DefaultTableModel model2=new DefaultTableModel();
 			                  System.out.println("el codigo A VER es :"+tblCobranza.getValueAt(fila1, 0).toString());
 			                  JdialogCobranzaPendientes.lblNomCliente.setText(tblCobranza.getValueAt(fila1, 0).toString());
 			                  JdialogCobranzaPendientes.lblnomCli2.setText(tblCobranza.getValueAt(fila1, 0).toString());
-			                  JdialogCobranzaPendientes.cliente=(tblCobranza.getValueAt(fila1, 0).toString());
+			                 
 			                  JdialogCobranzaPendientes.cliente=(tblCobranza.getValueAt(fila1, 0).toString());
 			          	 
 			                  //JdialogCobranzaPendientes.tblPendientesCobranza.setValueAt(tblCobranza.getValueAt(fila1, column), row, column);
@@ -268,6 +261,7 @@ public static DefaultTableModel model2=new DefaultTableModel();
 		
 		
 		ArrayList<Cobranza> listado = new GestionFinanzas().listado();
+		System.out.println("el listado de cobranza :"+listado);
 		Tabla_Reutilizable.listarCobranza(listado);
 		
 		
@@ -381,13 +375,22 @@ public static DefaultTableModel model2=new DefaultTableModel();
 			        }
 			}
 		});
-FormatoTablaMain.formatoTabla(tblCobranza);
+FormatoTablaMain.formatoTabla(tblCobranzaHoy);
 		
 scrollPane_1.setViewportView(tblCobranzaHoy);
 		
- 
+ArrayList<DefaultTableModel>listaHoy=new ArrayList<>();
+listaHoy.add(model2);
+
+Tabla_Reutilizable ta=new Tabla_Reutilizable();
+ta.ver_otraTabla(tblCobranzaHoy,  listaHoy,model2.getColumnCount());
+
+
+ArrayList<Cobranza> listadocoHoy = new GestionFinanzas().listadoCobranzaHoy();
+System.out.println(listadocoHoy);
+Tabla_Reutilizable.listarCobranzaHoy(listadocoHoy);
 	
-		
+		/*------*/
 		JLabel lblTotalCobraHoy = new JLabel("1400");
 		lblTotalCobraHoy.setForeground(new Color(240,240,240));
 		lblTotalCobraHoy.setBounds(150, 747, 74, 45);
@@ -502,17 +505,8 @@ void eliminar(String id) {
 
 }
 void MostrarTabla() {
-    /* TABLA COBRANZA HOY*/
-FormatoTablaMain.formatoTabla(tblCobranzaHoy);
-ArrayList<DefaultTableModel>listaHoy=new ArrayList<>();
-listaHoy.add(model2);
-
-Tabla_Reutilizable ta=new Tabla_Reutilizable();
-ta.ver_otraTabla(tblCobranzaHoy,  listaHoy,model2.getColumnCount());
 
 
-ArrayList<Cobranza> listadocoHoy = new GestionFinanzas().listadoCobranzaHoy();
-Tabla_Reutilizable.listarCobranzaHoy(listadocoHoy);
 }
 
   }

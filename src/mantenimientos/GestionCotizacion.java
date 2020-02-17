@@ -25,14 +25,14 @@ public class GestionCotizacion implements InterfaceCotizacion{
 				con=MySQLconexion.getConexion();
 				con.setAutoCommit(false);
 							//insert ventas values(null,'Factura','2018/11/10',1,1);
-				String sql1="insert into cotizacion values(null,sysdate(),?,false,?,?,?);";
+				String sql1="insert into cotizacion values(null,sysdate(),?,false,?,?,?,'vigente');";
 				pst1=con.prepareStatement(sql1);
 
 				pst1.setInt(1,c.getIdUsu());
-				pst1.setBoolean(2, c.isFacturado());
-				pst1.setDouble(3, c.getTotal());
-				pst1.setString(4, c.getFechaVenci());
-				pst1.setInt(5, c.getIdCli());
+				
+				pst1.setDouble(2, c.getTotal());
+				pst1.setString(3, c.getFechaVenci());
+				pst1.setInt(4, c.getIdCli());
 			
 			
 				resultado=pst1.executeUpdate();

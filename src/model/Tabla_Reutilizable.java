@@ -34,6 +34,7 @@ public class Tabla_Reutilizable {
 	static JButton btn2;
 	static JButton btnVer;
 	static JButton btnVer2;
+	static JButton btnAbonar;
 	static JCheckBox checkBox;
 	
 	public static DefaultTableModel model;
@@ -62,16 +63,23 @@ public void ver_tabla(JTable tabla,ArrayList<DefaultTableModel>models,int longit
     	btn2.setIcon(ic);
         btn2.setName("e");
         
-        
-
+        /*fdfd*/
+        /*MBASDAASDASDSD*/
   	  btnVer = new JButton();
       btnVer.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
       ImageIcon ver = new ImageIcon(getClass().getResource("/img/ver.png"));
-  	Image r = ver.getImage().getScaledInstance(24, 24, Image.SCALE_SMOOTH);
+  	Image r = ver.getImage().getScaledInstance(24, 24, Image.SCALE_SMOOTH);	
   	Icon icon = new ImageIcon(r);
   	btnVer.setIcon(icon);
   	btnVer.setName("v");
 
+  	
+  	btnAbonar = new JButton();
+  	 ImageIcon abonar = new ImageIcon(getClass().getResource("/img/billete.png"));
+ 	Image img = abonar.getImage().getScaledInstance(24, 24, Image.SCALE_SMOOTH);
+ 	Icon icono = new ImageIcon(img);
+ 	btnAbonar.setIcon(icono);
+ 	btnAbonar.setName("p");
 
     
     
@@ -126,7 +134,13 @@ public void ver_otraTabla(JTable tabla,ArrayList<DefaultTableModel>models,int lo
     	btnVer.setIcon(icon);
     	btnVer.setName("v");
         
-    
+    	btnAbonar = new JButton();
+     
+        ImageIcon abonar = new ImageIcon(getClass().getResource("/img/billete.png"));
+    	Image img = abonar.getImage().getScaledInstance(24, 24, Image.SCALE_SMOOTH);
+    	Icon icono = new ImageIcon(img);
+    	btnAbonar.setIcon(icono);
+    	btnAbonar.setName("p");
     
     
             
@@ -147,6 +161,57 @@ public void ver_otraTabla(JTable tabla,ArrayList<DefaultTableModel>models,int lo
 
     }
 
+
+/*--------------------listado de usuarios-----------------------*/
+public static void listarUsuarios(ArrayList<Empleados> listado) {
+   
+	
+
+	
+	for (Empleados cl : listado) {
+		Object datos[] = { cl.getId_emp(), cl.getNom_emp(),cl.getApe_pat_emp(),  cl.getApe_mat_emp(),
+				cl.getSex_emp(),cl.getEmail_emp(),cl.getSueldo_emp(),cl.getEstado_emp(),cl.getDirec_emp(),cl.getTelf_emp()
+				,cl.getCell_emp(),cl.getDni_emp(),cl.getLogin_emp(),cl.getPsw_emp(),null,btn1,btn2 };
+
+		model.addRow(datos);
+
+	}
+}
+	public static void listarNombre(ArrayList<Empleados> listado) {
+		   
+	
+		
+		for (Empleados cl : listado) {
+			Object datos[] = { cl.getId_emp(), cl.getNom_emp(),cl.getApe_pat_emp(),  cl.getApe_mat_emp(),
+					cl.getSex_emp(),cl.getEmail_emp(),cl.getSueldo_emp(),cl.getEstado_emp(),cl.getDirec_emp(),cl.getTelf_emp()
+					,cl.getCell_emp(),cl.getDni_emp(),cl.getLogin_emp(),cl.getPsw_emp(),null,btn1,btn2 };
+
+			model.addRow(datos);
+		}
+	
+}
+/*----------------------------------------------------------------*/
+
+	/*listado Perfiles*/
+	
+	public static void listarPerfiles(ArrayList<PerfilUsuario> listado) {
+		   
+		
+	
+		
+		for (PerfilUsuario cl : listado) {
+			Object datos[] = { cl.getIdPerfil(), cl.getDescPerfil(),btn1,btn2 };
+
+			model.addRow(datos);
+
+		}
+	}
+	
+	
+	
+	
+	/*--------------------------------------------*/
+	
 public static  void listar(ArrayList<Producto> lista) {
    
 	
@@ -198,8 +263,7 @@ public static  void listarCobranza(ArrayList<Cobranza> listado) {
 	
 	
 	for (Cobranza cl : listado) {
-		Object datos[] = {cl.getNomCli(),cl.getTipDoc(),cl.getNumDoc(),cl.getTipPag(),cl.getNumVen(),cl.getFormaPag(),cl.getFechEmi(),cl.getFechVenc(),cl.getNomVendedor(),"S/.",cl.getTotalVen()
-				,"","",cl.getVenceDias(),cl.getDiasMora(),btnVer};
+		Object datos[] = {cl.getNomCli(),cl.getTelf_cli(),cl.getCell_cli(),"S/."+ cl.getTotalVen(),btnVer};
 
 		model.addRow(datos);
 
@@ -212,7 +276,7 @@ public static  void listarCobranzaHoy(ArrayList<Cobranza> listado) {
 	
 	
 	for (Cobranza cl : listado) {
-		Object datos[] = {cl.getNomCli(),"S./",cl.getTotalVen(),btnVer};
+		Object datos[] = {cl.getNomCli(),"S./"+ cl.getTotalVen(),btnVer};
 
 		model2.addRow(datos);
 
@@ -226,14 +290,25 @@ public static  void listarCobranzaCliente(ArrayList<Cobranza> listado) {
 	
 	
 	for (Cobranza cl : listado) {
-		Object datos[] = {cl.getTipDoc(),cl.getNumVen(),cl.getFechVenc(),cl.getDiasMora(),"S./",cl.getTotalVen(),true};
+		Object datos[] = {cl.getIdVenta(),cl.getTipDoc(),cl.getNumVen(),cl.getFechVenc(),cl.getDiasMora(),"S./"+cl.getTotalVen(),cl.getAbono(),cl.getSaldo(),btnAbonar};
+
+		model.addRow(datos);
+
+	}
+}
+
+public static  void listarAbonos(ArrayList<Abono> listado) {
+   
+	
+	
+	
+	for (Abono cl : listado) {
+		Object datos[] = {cl.fecha_abono,cl.forma_pago,cl.observ_abono,cl.monto_abono};
 
 		model2.addRow(datos);
 
 	}
 }
-
-
 public void setBox(JTable tabla ,TableColumn column) {
 	column.setCellEditor(new JDateChooserEditor(new JCheckBox()));
 	DefaultTableCellRenderer renderer=new DefaultTableCellRenderer();

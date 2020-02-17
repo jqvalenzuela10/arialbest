@@ -2,7 +2,15 @@ package model;
 
 public class Cobranza {
 	
-	String nomCli,tipDoc,NumDoc,tipPag,numVen,FormaPag,FechEmi,FechVenc,NomVendedor,TotalVen,abono,saldo,VenceDias,DiasMora,telf_cli,cell_cli,correo_cli;
+	String idVenta,nomCli,tipDoc,NumDoc,tipPag,numVen,FormaPag,FechEmi,FechVenc,NomVendedor,TotalVen,abono,saldo,VenceDias,DiasMora,telf_cli,cell_cli,correo_cli;
+
+	public String getIdVenta() {
+		return idVenta;
+	}
+
+	public void setIdVenta(String idVenta) {
+		this.idVenta = idVenta;
+	}
 
 	public String getTelf_cli() {
 		return telf_cli;
